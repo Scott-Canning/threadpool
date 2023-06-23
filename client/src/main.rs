@@ -21,7 +21,7 @@ fn connect(value: u128) -> std::io::Result<()> {
     Ok(())
 }
 
-// spawn threads to make TCP connections with the server
+// spawn threads to connect with the server over TCP
 fn spawn_connectors(count: u32) {
     let mut handle_vec = Vec::<thread::JoinHandle<()>>::new();
 
@@ -40,7 +40,7 @@ fn spawn_connectors(count: u32) {
     
     // join thread handles
     for jh in handle_vec.into_iter() {
-        println!("res: {:?}", jh.join().unwrap());
+        jh.join().unwrap();
     }
 }
 
