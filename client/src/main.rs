@@ -3,7 +3,7 @@ use std::{
     thread,
     env::args,
     io::{prelude::*, self},
-    net::TcpStream
+    net::TcpStream,
 };
 use::rand::{
     Rng,
@@ -12,17 +12,12 @@ use::rand::{
 
 // establish TCP connection to server
 fn connect(value: u128) -> std::io::Result<()> {
-    match TcpStream::connect("127.0.0.1:8080"){
-        Ok(mut stream) => {
-        let response: String = format!("{}", value);
-
-        stream.write(response.as_bytes())?;
-        stream.flush().unwrap();
-        }
-        Err(error) => {
-            eprintln!("Failed to connect: {}", error);
-        }
-    }
+    let mut stream = TcpStream::connect("127.0.0.1:8080")?;
+    
+    let response: String = format!("{}", value);
+    stream.write(response.as_bytes())?;
+    stream.flush()?;
+    
     Ok(())
 }
 
@@ -38,7 +33,9 @@ fn spawn_connectors(count: u32) {
     // spawn 'count' threads
     for e in rand_values {
         handle_vec.push(thread::spawn(move || {
-            connect(e).unwrap();
+            if let Err(error) = connect(e) {
+                eprintln!("Failed to establish connection: {}", error);
+            };
             println!("Thread with value: {}", e)
         }));
     }

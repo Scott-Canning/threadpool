@@ -4,7 +4,7 @@
 start server: `cargo run`
 
 ### concepts used:
-- TCP socket server, listening for connections
+- TCP socket server
 - threadpool implementation
 - arc, mutex
 
