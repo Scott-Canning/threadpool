@@ -12,12 +12,17 @@ use::rand::{
 
 // establish TCP connection to server
 fn connect(value: u128) -> std::io::Result<()> {
-    let mut stream: TcpStream = TcpStream::connect("127.0.0.1:8080")?;
+    match TcpStream::connect("127.0.0.1:8080"){
+        Ok(mut stream) => {
+        let response: String = format!("{}", value);
 
-    let response: String = format!("{}", value);
-
-    stream.write(response.as_bytes())?;
-    stream.flush().unwrap();
+        stream.write(response.as_bytes())?;
+        stream.flush().unwrap();
+        }
+        Err(error) => {
+            eprintln!("Failed to connect: {}", error);
+        }
+    }
     Ok(())
 }
 
@@ -34,7 +39,7 @@ fn spawn_connectors(count: u32) {
     for e in rand_values {
         handle_vec.push(thread::spawn(move || {
             connect(e).unwrap();
-            println!("Thread with value: {}", e);
+            println!("Thread with value: {}", e)
         }));
     }
     

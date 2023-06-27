@@ -1,8 +1,17 @@
 # Rust multi-threaded client-server playground
 
-## /server
-Start server: `cargo run`
+## server
+start server: `cargo run`
 
-## /client
-Start client: `cargo run`
+### concepts used:
+- TCP socket server, listening for connections
+- threadpool implementation
+- arc, mutex
 
+
+## client
+start client: `cargo run`
+
+### concepts used:
+- recoverable error handling
+- args, stdin
