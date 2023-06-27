@@ -6,7 +6,6 @@ use std::{
     sync::{mpsc, Arc, Mutex},
 };
 
-
 #[derive(Debug, Clone)]
 pub struct PoolCreationError;
 
@@ -18,9 +17,7 @@ impl fmt::Display for PoolCreationError {
 
 impl Error for PoolCreationError {}
 
-
 type Job = Box<dyn FnOnce() + Send + 'static>;
-
 
 struct Worker {
     id: usize,
@@ -51,7 +48,6 @@ impl ThreadPool {
     /// 
     /// The size is the number of threads in the ThreadPool
     pub fn build(size: usize) -> Result<ThreadPool, PoolCreationError> {
-        // assert!(size > 0);
         if size == 0 {
             return Err(PoolCreationError);
         }

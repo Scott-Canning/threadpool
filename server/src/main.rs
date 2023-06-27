@@ -14,8 +14,6 @@ fn fibonacci(n: u128) -> u128 {
 }
 
 fn main() {
-    println!("Starting server...");
-
     // spin up threadpool
     let pool: ThreadPool = match ThreadPool::build(10) {
         Ok(p) => p,
@@ -26,6 +24,7 @@ fn main() {
     };
 
     // handle incoming TCP requests
+    println!("Starting server...");
     let listener = TcpListener::bind("127.0.0.1:8080").unwrap();
     for stream in listener.incoming() {
         let stream = stream.unwrap();
